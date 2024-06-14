@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>YOLOv8 Object Detection</title>
+    <style>
+      body {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+        background-color: #f0f0f0;
+      }
+
+      #uploadInput {
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: #fff;
+        font-size: 16px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-top: 20px;
+      }
+
+      #uploadInput:hover {
+        background-color: #0056b3;
+      }
+
+      #canvas-container {
+        position: relative;
+        margin-top: 20px;
+      }
+
+      canvas {
+        display: block;
+        border: 2px solid black;
+      }
+
+      #file-upload-image {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+    </style>
+  </head>
+  <body>
+    <input id="uploadInput" type="file" />
+    <div id="canvas-container">
+      <canvas width="740px" height="740px" id="miPanel"></canvas>
+      <img
+        width="220"
+        height="220"
+        id="miUpload"
+        src="https://www.pngall.com/wp-content/uploads/2/Upload-PNG-HD-Image.png"
+        alt="Imagen Cargada"
+        style="display: none"
+      />
+    </div>
+    <script>
+      var canvas = document.getElementById("miPanel");
+      var miImagen = document.getElementById("miUpload");
+      lapiz = canvas.getContext("2d");
+      miImagen.onload = function () {
+        lapiz.drawImage(miImagen, 10, 10);
+        lapiz.beginPath();
+        lapiz.font = "40px Arial";
+        lapiz.textAlign = "center";
+        lapiz.fillStyle = "white";
+        lapiz.fillText("Upload Files", 300, 600);
+      };
+
+      const input = document.getElementById("uploadInput");
+      const uploadedImage = document.getElementById("file-upload-image");
+
+      input.addEventListener("change", async (event) => {
+        if (event.target.files.length > 0) {
+          const selectedFile = event.target.files[0];
+          const allowedTypes = [
+            "image/jpeg",
+            "image/png",
+          ];
+          if (allowedTypes.includes(selectedFile.type)) {
+            const data = new FormData();
+            data.append("image_file", selectedFile, "image_file");
+            const response = await fetch("/detect", {
+              method: "post",
+              body: data,
+            });
+            const boxes = await response.json();
+            draw_image_and_boxes(selectedFile, boxes);
+          } else {
+            alert("Por favor, seleccione un archivo de imagen valido.");
+            event.target.value = null;
+          }
+        } else {
+          alert("Por favor, seleccione un archivo de tipo imagen.");
+        }
+      });
+
+      function draw_image_and_boxes(file, boxes) {
+        const img = new Image();
+        img.src = URL.createObjectURL(file);
+        img.onload = () => {
+          const canvas = document.querySelector("canvas");
+          canvas.width = img.width;
+          canvas.height = img.height;
+          const ctx = canvas.getContext("2d");
+          ctx.drawImage(img, 0, 0);
+          ctx.strokeStyle = "#00FF00";
+          ctx.lineWidth = 3;
+          ctx.font = "18px serif";
+
+          if (Array.isArray(boxes) && boxes.length > 0) {
+            boxes.forEach(({ x1, y1, x2, y2, etiqueta }) => {
+              ctx.strokeRect(x1, y1, x2 - x1, y2 - y1);
+              ctx.fillStyle = "#00ff00";
+              const width = ctx.measureText(etiqueta).width;
+              ctx.fillRect(x1, y1, width + 10, 25);
+              ctx.fillStyle = "#000000";
+              ctx.fillText(etiqueta, x1, y1 + 18);
+            });
+          } else {
+            console.error("boxes is not an array:", boxes);
+          }
+        };
+      }
+    </script>
+  </body>
+</html>

@@ -7,9 +7,10 @@ data_to_send = {
     "scenario": "D"
 }
 
-file_path = "C:/Users/PRALANITED01/Pictures/img_prueba.jpg"
+# C:/Users/<username>/Pictures/test_za.jpg
+file_path = "./images/test/test_za.jpg"
 
-image_file = {"image_file": ("img_prueba.jpg", open(file_path, "rb"), "image/jpeg")}
+image_file = {"image_file": ("test_za.jpg", open(file_path, "rb"), "image/jpeg")}
 
 response = requests.post(url, data=data_to_send, files=image_file)
 

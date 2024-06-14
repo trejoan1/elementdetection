@@ -1,21 +1,20 @@
 # Manufacturing cell: Object Detector using YOLOv8 neural network
-Development of an image processing application for element detection in a printed circuit board manufacturing cel
 
 <div align="center">
-<a href="https://dev.to/andreygermanov/a-practical-introduction-to-object-detection-with-yolov8-neural-network-3n8c">
-    <img src="https://res.cloudinary.com/practicaldev/image/fetch/s--mZ1E0vOa--/c_imagga_scale,f_auto,fl_progressive,h_420,q_auto,w_1000/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/n2auv9i8405cgnxhru40.png"/>
-</a>
+  <a>
+    <img src="images/logo.png" alt="Logo" width="80" height="60">
+  </a>
 </div>
 
 
 The source code for [this](https://dev.to/andreygermanov/a-practical-introduction-to-object-detection-with-yolov8-neural-network-3n8c) article.
 
 This is a web interface to [YOLOv8 object detection neural network](https://ultralytics.com/yolov8) 
-implemented on [Python](https://www.python.org) that uses a model to detect traffic lights and road signs on images.
+implemented on [Python](https://www.python.org) that uses a model to detect elements in images of a printed circuit board manufacturing cell.
 
 ## Install
 
-* Clone this repository: `git clone git@github.com:AndreyGermanov/yolov8_pytorch_python.git`
+* Clone this repository: `git clone https://github.com/trejoan1/elementdetection.git`
 * Go to the root of cloned repository
 * Install dependencies by running `pip3 install -r requirements.txt`
 
@@ -24,7 +23,7 @@ implemented on [Python](https://www.python.org) that uses a model to detect traf
 Execute:
 
 ```
-python3 object_detector.py
+python3 post_object_detector.py
 ```
 
 It will start a webserver on http://localhost:8080. Use any web browser to open the web interface.

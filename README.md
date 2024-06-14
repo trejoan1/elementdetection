@@ -2,12 +2,9 @@
 
 <div align="center">
   <a>
-    <img src="images/logo.png" alt="Logo" width="80" height="60">
+    <img src="images/logo.png" alt="Logo" width="600" height="400">
   </a>
 </div>
-
-
-The source code for [this](https://dev.to/andreygermanov/a-practical-introduction-to-object-detection-with-yolov8-neural-network-3n8c) article.
 
 This is a web interface to [YOLOv8 object detection neural network](https://ultralytics.com/yolov8) 
 implemented on [Python](https://www.python.org) that uses a model to detect elements in images of a printed circuit board manufacturing cell.
